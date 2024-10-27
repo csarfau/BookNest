@@ -2,8 +2,9 @@ import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import axiosClient from "../axios-client";
 import { useUser } from "../contexts/UserContext";
+import { toast } from "react-toastify";
 
-  /** Função Login:
+  /** Função do componente Login:
    * - Cria o payload com as informações preenchidas
    * - Requisição HTTP para o backend com axios
    * - Salva o user no context
@@ -38,9 +39,11 @@ export default function Login() {
           if (response.data.errors) {
             setErrors(response.data.errors);
           } else {
+            toast.error("Falha ao fazer login!", {theme: "dark"});
             setErrors(response.data.message);
           }
         }
+        toast.error("Falha ao fazer login!", {theme: "dark"});
         setErrors(response.data.message);
       });
   };

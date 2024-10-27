@@ -2,8 +2,9 @@ import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import axiosClient from "../axios-client";
 import { useUser } from "../contexts/UserContext";
+import { toast } from "react-toastify";
 
-  /** Função SignUp:
+  /** Função do componente Signup:
    * - Cria o payload com as informações preenchidas
    * - Requisição HTTP para o backend com axios
    * - Salva o user no context
@@ -32,6 +33,7 @@ export default function SignUp() {
     axiosClient
       .post("/signup", payload)
       .then(({ data }) => {
+        toast.success("Cadastro realizado com sucesso!", {theme: "dark"});
         setUser(data.user);
         setToken(data.token);
       })

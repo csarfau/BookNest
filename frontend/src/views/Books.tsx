@@ -4,6 +4,12 @@ import axiosClient from "../axios-client";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
+/** Função do componente Books:
+ * - Listar os livros que pertencem a um usuário
+ * - Filtrar de acordo com o título
+ * - Criar, editar e deletar um livro
+ */
+
 export default function Books() {
   const [books, setBooks] = useState<IBooks[] | []>([]);
   const [loading, setLoading] = useState(false);

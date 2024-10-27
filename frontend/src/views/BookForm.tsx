@@ -4,6 +4,11 @@ import { IBooks } from "../types/books";
 import axiosClient from "../axios-client";
 import { toast } from "react-toastify";
 
+/** Função do componente BookForm:
+ * - Exibir o formulário para criação ou edição de um livro
+ * - Confirma a criação ou edição de um livro
+ */
+
 export default function BookForm() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -24,7 +29,7 @@ export default function BookForm() {
         setBook(data);
       })
       .catch((error) => {
-        console.error("Error fetching book:", error);
+        console.error("Erro ao carregar livros:", error);
       })
       .finally(() => {
         setLoading(false);

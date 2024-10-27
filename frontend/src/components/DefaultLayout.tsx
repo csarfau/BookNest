@@ -2,6 +2,7 @@ import { Link, Navigate, Outlet } from "react-router-dom";
 import { useUser } from "../contexts/UserContext";
 import { useEffect } from "react";
 import axiosClient from "../axios-client";
+import { toast } from "react-toastify";
 
 export default function DefaultLayout() {
   const { user, token, setUser, setToken } = useUser();
@@ -19,8 +20,7 @@ export default function DefaultLayout() {
         setToken(null)
       })
       .catch(err => {
-        // TODO Toast
-        console.log(err);
+        toast.error(`Falha ao sair: ${err}`, {theme: "dark"});
       })
   };
 
@@ -39,7 +39,7 @@ export default function DefaultLayout() {
       </aside>
       <div className="content">
         <header>
-          <div>Header</div>
+          <div>Book Nest</div>
           <div>
             {user?.name}
             <a href="#" onClick={onLogout} className="btn-logout">
