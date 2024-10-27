@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { IBooks } from "../types/books";
 import axiosClient from "../axios-client";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Books() {
   const [books, setBooks] = useState<IBooks[] | []>([]);
@@ -28,12 +29,13 @@ export default function Books() {
     if(!window.confirm("Tem certeza que deseja excluir este livro?")) return;
     axiosClient.delete(`/books/${bookId}`)
       .then(() => {
+        toast.success("Livro excluído com sucesso!", {theme: "dark"});
         setLoading(false);
         getBooks();
       })
       .catch((err) => {
+        toast.error(`Não foi possível excluir o livro, erro: ${err.message}`, {theme: "dark"});
         setLoading(false);
-        console.log(err);
       })
   }
 

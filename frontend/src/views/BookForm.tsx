@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { IBooks } from "../types/books";
 import axiosClient from "../axios-client";
+import { toast } from "react-toastify";
 
 export default function BookForm() {
   const { id } = useParams();
@@ -41,25 +42,27 @@ export default function BookForm() {
     if(book.id) {
       axiosClient.patch(`/books/${book.id}`, book)
         .then(() => {
-          //TODO motrar notificação
+          toast.success("Informações alteradas com sucesso!", {theme: "dark"});
           navigate("/books");
         })
         .catch((err) => {
           const response = err.response;
           if (response && response.status === 422) {
             setErrors(response.data.errors);
+            toast.error("Falha ao alterar informações, tente novamente.", {theme: "dark"});
           }
         });
     } else {
       axiosClient.post("/books", book)
         .then(() => {
-          //TODO motrar notificação
+          toast.success("Livro criado com sucesso!", {theme: "dark"});
           navigate("/books");
         })
         .catch((err) => {
           const response = err.response;
           if (response && response.status === 422) {
             setErrors(response.data.errors);
+            toast.error("Falha ao criar livro, tente novamente.", {theme: "dark"});
           }
         })
     }
