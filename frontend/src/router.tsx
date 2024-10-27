@@ -6,6 +6,7 @@ import NotFound from "./views/NotFound";
 import DefaultLayout from "./components/DefaultLayout";
 import GuestLayout from "./components/GuestLayout";
 import Dashboard from "./views/Dashboard";
+import BookForm from "./views/BookForm";
 
 // Criação das rotas com o React Router Dom
 const router = createBrowserRouter([
@@ -15,15 +16,23 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/", // Rota para redirecionar 
-        element: <Navigate to="/books" />
+        element: <Navigate to="/dashboard" />
       },
       {
-        path: "/dashboard", // Rota de dashboard dos livros
+        path: "/dashboard", // Rota listar todos os livros
         element: <Dashboard />,
       },
       {
-        path: "/books", // Rota com a lista de livros do usuário
+        path: "/books", // Rota listar livros do usuário
         element: <Books />,
+      },
+      {
+        path: "/books/new", // Rota novo livro
+        element: <BookForm key="bookCreate"/>,
+      },
+      {
+        path: "/books/:id", // Rota atualizar livro
+        element: <BookForm key="bookUpdate"/>,
       },
     ],
   },

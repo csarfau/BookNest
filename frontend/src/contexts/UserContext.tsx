@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext, useState } from "react";
-import { IUser } from "../../types/user";
+import { IUser } from "../types/user";
 
 // Tipagem para o children do context
 type UserContextProps = {
@@ -19,13 +19,15 @@ const UserContext = createContext<UserContextType>({
   user: null,
   token: null,
   setUser: () => {},
-  setToken: () => {}
+  setToken: () => {},
 });
 
 // Criando um contextProvider, que vai envolver toda a aplicação
 export const ContextProvider = ({ children }: UserContextProps) => {
   const [user, setUser] = useState<IUser | null>(null);
-  const [token, _setToken] = useState<string | null>(localStorage.getItem("ACCESS_TOKEN"));
+  const [token, _setToken] = useState<string | null>(
+    localStorage.getItem("ACCESS_TOKEN")
+  );
 
   const setToken = (token: string | null) => {
     _setToken(token);
@@ -37,7 +39,8 @@ export const ContextProvider = ({ children }: UserContextProps) => {
   };
 
   return (
-    <UserContext.Provider value={{
+    <UserContext.Provider
+      value={{
         user,
         token,
         setUser,
@@ -50,4 +53,4 @@ export const ContextProvider = ({ children }: UserContextProps) => {
 };
 
 // Exportando o contexto para usar nos componentes
-export const useUser = () => useContext(UserContext); 
+export const useUser = () => useContext(UserContext);
