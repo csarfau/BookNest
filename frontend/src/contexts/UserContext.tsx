@@ -11,7 +11,7 @@ type UserContextType = {
   user: IUser | null;
   token: string | null;
   setUser: (user: IUser | null) => void;
-  setToken: (token: string) => void;
+  setToken: (token: string | null) => void;
 };
 
 // Criando o contexto de usuário para autenticação
@@ -25,9 +25,9 @@ const UserContext = createContext<UserContextType>({
 // Criando um contextProvider, que vai envolver toda a aplicação
 export const ContextProvider = ({ children }: UserContextProps) => {
   const [user, setUser] = useState<IUser | null>(null);
-  const [token, _setToken] = useState(localStorage.getItem("ACCESS_TOKEN"));
+  const [token, _setToken] = useState<string | null>(localStorage.getItem("ACCESS_TOKEN"));
 
-  const setToken = (token: string) => {
+  const setToken = (token: string | null) => {
     _setToken(token);
     if (token) {
       localStorage.setItem("ACCESS_TOKEN", token);
