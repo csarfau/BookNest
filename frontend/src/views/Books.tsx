@@ -63,7 +63,7 @@ export default function Books() {
           </tbody>}
           <tbody>
             {books.map(book => (
-              <tr>
+              <tr key={book.id}>
                 <td>{book.id}</td>
                 <td>{book.title}</td>
                 <td>{book.description}</td>

@@ -35,7 +35,7 @@ export default function DefaultLayout() {
     <div id="defaultLayout">
       <aside>
         <Link to="/dashboard">Painel</Link>
-        <Link to="/books">Livros</Link>
+        <Link to="/books">Meus Livros</Link>
       </aside>
       <div className="content">
         <header>
