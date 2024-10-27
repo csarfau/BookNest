@@ -13,9 +13,13 @@ axiosClient.interceptors.request.use((config: InternalAxiosRequestConfig) => {
 axiosClient.interceptors.response.use((response: AxiosResponse) => {
   return response;
 }, (error: AxiosError) => {
-  const { response } = error;
-  if(response?.status === 401) {
-    localStorage.removeItem("ACCESS_TOKEN");
+  try {
+    const { response } = error;
+    if(response?.status === 401) {
+      localStorage.removeItem("ACCESS_TOKEN");      
+    }
+  } catch (err) {
+    throw err;
   }
 
   throw error;
