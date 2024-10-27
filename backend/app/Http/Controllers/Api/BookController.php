@@ -20,11 +20,19 @@ class BookController extends Controller
         );
     }
 
+    public function userBooks()
+    {
+        return BookResource::collection(
+            Book::where('user_id', (auth()->id()))->orderBy('id', 'desc')->paginate(10)
+        );
+    }
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreBookRequest $request)
     {
+        $this->authorize('create', Book::class);
         $data = $request->validated();
         $data['user_id'] = auth()->id();
         $book = Book::create($data);
@@ -44,6 +52,7 @@ class BookController extends Controller
      */
     public function update(UpdateBookRequest $request, Book $book)
     {
+        $this->authorize('update', $book);
         $data = $request->validated();
         $book->update($data);
         return response(new BookResource($book));
@@ -54,6 +63,7 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
+        $this->authorize('delete', $book);
         $book->delete();
         return response("", 204);
     }

@@ -14,7 +14,7 @@ export default function Books() {
 
   const getBooks = () => {
     setLoading(true);
-    axiosClient.get("/books")
+    axiosClient.get("/userBooks")
       .then(({data}) => {
         setLoading(false);
         setBooks(data.data);
