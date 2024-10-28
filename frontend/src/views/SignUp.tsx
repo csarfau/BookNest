@@ -1,17 +1,18 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import axiosClient from "../axios-client";
 import { useUser } from "../contexts/UserContext";
 import { toast } from "react-toastify";
+import { Box, Button, TextField, Typography } from "@mui/material";
 
-  /** Função do componente Signup:
-   * - Cria o payload com as informações preenchidas
-   * - Requisição HTTP para o backend com axios
-   * - Salva o user no context
-   * - Salva o token recebido no localStorage
-   * - Faz o tratamentos dos erros do servidor e também dos erros de validação
-   * de formulário, e exibe pro usuário
-   * */
+/** Função do componente Signup:
+ * - Cria o payload com as informações preenchidas
+ * - Requisição HTTP para o backend com axios
+ * - Salva o user no context
+ * - Salva o token recebido no localStorage
+ * - Faz o tratamentos dos erros do servidor e também dos erros de validação
+ * de formulário, e exibe pro usuário
+ * */
 
 export default function SignUp() {
   const nameRef = useRef<HTMLInputElement | null>(null);
@@ -20,6 +21,12 @@ export default function SignUp() {
   const passwordConfirmationRef = useRef<HTMLInputElement | null>(null);
   const [errors, setErrors] = useState(null);
   const { setUser, setToken } = useUser();
+
+  useEffect(() => {
+    if (errors) {
+      toast.error(`${errors}`, { theme: "dark", position: "top-center" });
+    }
+  }, [errors]);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -33,7 +40,7 @@ export default function SignUp() {
     axiosClient
       .post("/signup", payload)
       .then(({ data }) => {
-        toast.success("Cadastro realizado com sucesso!", {theme: "dark"});
+        toast.success("Cadastro realizado com sucesso!", { theme: "dark" });
         setUser(data.user);
         setToken(data.token);
       })
@@ -42,35 +49,75 @@ export default function SignUp() {
         if (response && response.status === 422) {
           setErrors(response.data.errors);
         }
+        setErrors(response.data.message);
       });
   };
 
   return (
-    <div className="login-signup-form animated fadeInDown">
-      <div className="form">
-        <form onSubmit={onSubmit}>
-          <h1 className="title">Crie sua conta gratuita</h1>
-          {errors && (
-            <div className="alert">
-              {Object.keys(errors).map((key) => (
-                <p key={key}>{errors[key][0]}</p>
-              ))}
-            </div>
-          )}
-          <input ref={nameRef} placeholder="Nome completo" />
-          <input ref={emailRef} type="email" placeholder="Email" />
-          <input ref={passwordRef} type="password" placeholder="Senha" />
-          <input
-            ref={passwordConfirmationRef}
-            type="password"
-            placeholder="Confirme sua senha"
+    <Box sx={{ height: "100vh", display: "flex", alignItems: "center" }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 3,
+          borderRadius: 2,
+          boxShadow: 3,
+          maxWidth: 400,
+          margin: "auto",
+          animation: "fadeInDown 0.5s",
+          background: "#ffffff",
+        }}
+      >
+        <Typography variant="h4" component="h1" gutterBottom>
+          Criar conta
+        </Typography>
+        <form onSubmit={onSubmit} style={{ width: "100%" }}>
+          <TextField
+            inputRef={nameRef}
+            type="text"
+            label="Nome completo"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            required
           />
-          <button className="btn btn-block">Criar conta</button>
-          <p className="message">
-            Já tem uma conta? <Link to="/login">Fazer login</Link>
-          </p>
+          <TextField
+            inputRef={emailRef}
+            type="email"
+            label="Email"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            required
+          />
+          <TextField
+            inputRef={passwordRef}
+            type="password"
+            label="Senha"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            required
+          />
+          <TextField
+            inputRef={passwordConfirmationRef}
+            type="password"
+            label="Confirme sua senha"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            required
+          />
+          <Button sx={{ marginTop: "1rem" }} variant="contained" color="primary" type="submit" fullWidth>
+            Criar Conta
+          </Button>
         </form>
-      </div>
-    </div>
+        <Typography variant="body2" sx={{ marginTop: 2 }}>
+          Já possui uma conta? <Link to="/signup">Fazer Login</Link>
+        </Typography>
+      </Box>
+    </Box>
   );
 }
