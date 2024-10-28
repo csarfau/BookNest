@@ -10,11 +10,13 @@ import {
   Button,
   CircularProgress,
   Typography,
+  TextField,
 } from "@mui/material";
 import { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import axiosClient from "../axios-client";
+import { useDebounce } from "../customHooks/debounceHook";
 
 interface IBooks {
   id: string;
@@ -53,7 +55,9 @@ export default function Books() {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
   const [total, setTotal] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, _] = useState(10);
+  const [searchValue, setSearchValue] = useState('');
+  const debouncedSearch = useDebounce(searchValue);
 
   const fetchBooks = useCallback((currentPage: number, pageSize: number) => {
     setLoading(true);
@@ -62,6 +66,7 @@ export default function Books() {
         params: {
           page: currentPage + 1,
           per_page: pageSize,
+          title: debouncedSearch
         },
       })
       .then(({ data }) => {
@@ -76,11 +81,11 @@ export default function Books() {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, [debouncedSearch]);
 
   useEffect(() => {
-    fetchBooks(page, rowsPerPage);
-  }, [page, rowsPerPage, fetchBooks]);
+    fetchBooks(page, rowsPerPage);    
+  }, [page, rowsPerPage, fetchBooks, debouncedSearch]);
 
   const handleDelete = (bookId: string) => {
     if (!window.confirm("Tem certeza que deseja excluir este livro?")) {
@@ -111,21 +116,19 @@ export default function Books() {
     []
   );
 
-  const handleChangeRowsPerPage = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const newRowsPerPage = parseInt(event.target.value, 10);
-      setRowsPerPage(newRowsPerPage);
-      setPage(0);
-    },
-    []
-  );
-
   return (
-    <Paper elevation={3} className="animated fadeInDown">
-      <Paper elevation={2} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: 3 }}>
+    <Paper elevation={3} sx={{ maxHeight: "90vh" }}>
+      <Paper elevation={2} sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: 2 }}>
         <Typography>
           Livros
         </Typography>
+        <TextField 
+            size="small" 
+            id="outlined-basic" 
+            label="Pesquisar" 
+            variant="outlined" 
+            onChange={(e) => setSearchValue(e.target.value)}
+          />
         <Button
           component={Link}
           to={`/books/new`}
@@ -231,13 +234,11 @@ export default function Books() {
         count={total}
         page={page}
         rowsPerPage={rowsPerPage}
-        rowsPerPageOptions={[5, 10, 25, 50]}
+        rowsPerPageOptions={[]} 
         onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
         labelDisplayedRows={({ from, to, count }) =>
           `${from}-${to} de ${count}`
         }
-        labelRowsPerPage="Itens por página:"
       />
     </Paper>
   );

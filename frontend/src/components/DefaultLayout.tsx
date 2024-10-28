@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link as RouterLink, Outlet, Navigate } from 'react-router-dom';
 import {
   AppBar,
@@ -31,7 +31,7 @@ export default function DefaultLayout() {
   const { user, token, setUser, setToken } = useUser();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     if(token) {

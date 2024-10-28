@@ -21,40 +21,42 @@ export default function Dashboard() {
 
   const getAllBooks = () => {
     setLoading(true);
-    axiosClient.get("/books")
-      .then(({data}) => {        
+    axiosClient
+      .get("/books")
+      .then(({ data }) => {
         setLoading(false);
         setBooks(data.data);
       })
       .catch(() => {
         setLoading(false);
-      })
-  }
-    const handleViewDetails = (id: string) => {
-      navigate(`/book/details/${id}`);
-    }
-  
-    return (
-      <Box 
-        sx={{ 
-          display: "flex", 
-          flexWrap: "wrap", 
-          justifyContent: "space-between", 
-          padding: "16px",
-        }}
-      >
-        {books.map((book) => (
-          <Card key={book.id}
-            sx={{
-              flex: "0 1 calc(25% - 16px)", 
-              margin: "8px",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <BookCard book={book} onViewDetails={handleViewDetails}/>
-          </Card>
-        ))}
-      </Box>
-    );
+      });
+  };
+  const handleViewDetails = (id: string) => {
+    navigate(`/book/details/${id}`);
+  };
+
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "space-between",
+        padding: "16px",
+      }}
+    >
+      {books.map((book) => (
+        <Card
+          key={book.id}
+          sx={{
+            flex: "0 1 calc(25% - 16px)",
+            margin: "8px",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <BookCard book={book} onViewDetails={handleViewDetails} />
+        </Card>
+      ))}
+    </Box>
+  );
 }
