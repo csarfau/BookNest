@@ -15,7 +15,7 @@ class BookController extends Controller
      * - Fazendo a busca de todos os livros, e realizando a filtragem pelo título
      * e também pela descrição, com o mesmo parâmetro de título, para facilitar
      * as buscas do usuário
-     * - Ordenando por ID e enviando com paginação para o frontend.
+     * - Ordenando pelo título e enviando com paginação para o frontend.
      * - Utilizando Resource personalizada para serializar os dados enviados
      */
     public function index(Request $request)
@@ -26,19 +26,19 @@ class BookController extends Controller
                     $q->where('title', 'like', '%' . $request->input('title') . '%')
                         ->orWhere('description', 'like', '%' . $request->input('title') . '%');
                     })
-                    ->orderBy('id', 'desc')
+                    ->orderBy('title', 'desc')
                     ->paginate(10)
             );
         }
         return BookResource::collection(
-            Book::query()->orderBy('id', 'desc')->paginate(10)
+            Book::query()->orderBy('title', 'desc')->paginate(10)
         );
     }
 
     /**
      * - Fazendo uma busca apenas dos livros pertencentes ao usuário logado
      * - Também com filtro de título e descrição facilitando a busca do usuário
-     * - Enviando com paginação e ordenado por ID para o frontend
+     * - Enviando com paginação e ordenado pelo título para o frontend
      * - Utilizando Resource personalizada para serializar os dados enviados
      */
     public function userBooks(Request $request)
@@ -50,12 +50,12 @@ class BookController extends Controller
                         $q->where('title', 'like', '%' . $request->input('title') . '%')
                             ->orWhere('description', 'like', '%' . $request->input('title') . '%');
                     })
-                    ->orderBy('id', 'desc')
+                    ->orderBy('title', 'desc')
                     ->paginate(10)
             );
         }
         return BookResource::collection(
-            Book::where('user_id', (auth()->id()))->orderBy('id', 'desc')->paginate(10)
+            Book::where('user_id', (auth()->id()))->orderBy('title', 'desc')->paginate(10)
         );
     }
 
