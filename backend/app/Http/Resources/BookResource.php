@@ -9,7 +9,9 @@ class BookResource extends JsonResource
 {
     public static $wrap = false;
     /**
-     * Transform the resource into an array.
+     * Essa resource serve para serializar os dados antes de enviá-los para
+     * o frontend, assim criamos um padrão de retorno sempre que usar essa
+     * resource.
      *
      * @return array<string, mixed>
      */

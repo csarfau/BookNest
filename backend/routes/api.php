@@ -16,6 +16,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/**
+ * Aqui é onde é feita a separação das rotas autenticadas, que fazem parte do
+ * mesmo grupo, e das rotas que não exigem autenticação, nesse caso apenas
+ * login e signup.
+ */
+
 Route::middleware('auth:sanctum')->group(function() {
     Route::get('/user', function (Request $request) {
         return $request->user();

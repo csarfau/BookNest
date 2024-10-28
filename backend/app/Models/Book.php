@@ -25,6 +25,9 @@ class Book extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
+    /**
+     * Função para criar um valor padrão para o uuid na model Book
+     */
     protected static function boot()
     {
         parent::boot();
@@ -36,6 +39,9 @@ class Book extends Model
         });
     }
 
+    /**
+     * Criando o relacionamento com user, um livro pertence a um único usuário
+     */
     public function user()
     {
         return $this->belongsTo(User::class);

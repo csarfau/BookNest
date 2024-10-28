@@ -46,6 +46,9 @@ class User extends Authenticatable
     public $incrementing = false;
     protected $keyType = 'string';
 
+    /**
+     * Função para criar um valor padrão para o uuid na model User
+     */
     protected static function boot()
     {
         parent::boot();
