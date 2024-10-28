@@ -27,13 +27,12 @@ import { toast } from 'react-toastify';
 
 const DRAWER_WIDTH = 240;
 
-const DefaultLayout = () => {
+export default function DefaultLayout() {
   const { user, token, setUser, setToken } = useUser();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
-  // UseEffect para preencher os dados iniciais do usuário ao entrar
   useEffect(() => {
     if(token) {
       axiosClient.get("/user").then(({ data }) => {
@@ -41,8 +40,7 @@ const DefaultLayout = () => {
       });
     }
   }, [token, setUser]);
-  
-  // onLogout: Remove o token de autenticação
+
   const onLogout = () => {
     axiosClient
       .post("/logout")
@@ -118,7 +116,6 @@ const DefaultLayout = () => {
           </Box>
         </Toolbar>
       </AppBar>
-
       <Box component="nav">
         {isMobile ? (
           <Drawer
@@ -151,7 +148,6 @@ const DefaultLayout = () => {
           </Drawer>
         )}
       </Box>
-
       <Box
         component="main"
         sx={{
@@ -160,11 +156,9 @@ const DefaultLayout = () => {
           width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` }
         }}
       >
-        <Toolbar /> {/* This creates space for the AppBar */}
+        <Toolbar />
         <Outlet />
       </Box>
     </Box>
   );
 };
-
-export default DefaultLayout;
