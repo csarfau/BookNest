@@ -7,51 +7,56 @@ import DefaultLayout from "./components/DefaultLayout";
 import GuestLayout from "./components/GuestLayout";
 import Dashboard from "./views/Dashboard";
 import BookForm from "./views/BookForm";
+import BookShow from "./views/BookShow";
 
 // Criação das rotas com o React Router Dom
 const router = createBrowserRouter([
   {
-    path: "/", // Grupo de rotas para usuários autenticados
+    path: "/",
     element: <DefaultLayout />,
     children: [
       {
-        path: "/", // Rota para redirecionar 
+        path: "/",
         element: <Navigate to="/dashboard" />
       },
       {
-        path: "/dashboard", // Rota listar todos os livros
+        path: "/dashboard",
         element: <Dashboard />,
       },
       {
-        path: "/books", // Rota listar livros do usuário
+        path: "/books",
         element: <Books />,
       },
       {
-        path: "/books/new", // Rota novo livro
+        path: "/books/new",
         element: <BookForm key="bookCreate"/>,
       },
       {
-        path: "/books/:id", // Rota atualizar livro
+        path: "/books/:id",
         element: <BookForm key="bookUpdate"/>,
+      },
+      {
+        path: "/book/details/:id",
+        element: <BookShow/>,
       },
     ],
   },
   {
-    path: "/", // Grupo de rotas para usuários desconhecidos
+    path: "/",
     element: <GuestLayout />,
     children: [
       {
-        path: "/login", // Rota de login
+        path: "/login",
         element: <Login />,
       },
       {
-        path: "/signup", // Rota de registro
+        path: "/signup",
         element: <SignUp />,
       },
     ],
   },
   {
-    path: "/*", // Rota de não encontrado, para o caso de busca em rotas inexistentes
+    path: "/*",
     element: <NotFound />,
   },
 ]);
