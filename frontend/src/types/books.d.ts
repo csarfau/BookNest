@@ -3,4 +3,5 @@ export interface IBooks {
   title: string;
   description: string;
   author: string;
+  image_url?: string; 
 }

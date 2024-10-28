@@ -212,7 +212,7 @@ export default function Books() {
                     &nbsp;
                     <Button
                       component={Link}
-                      to={`/books/${book.id}`}
+                      to={`/book/details/${book.id}`}
                       variant="contained"
                       size="small"
                       sx={{ background: "#66bb6a" }}
