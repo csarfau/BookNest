@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Migration para criar a tabela users no banco de dados, com as colunas
+     * especificadas e seus tipos
      */
     public function up(): void
     {

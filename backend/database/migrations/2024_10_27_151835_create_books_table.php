@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Migration para criar a tabela books no banco de dados, com as colunas
+     * especificadas e seus tipos
      */
     public function up(): void
     {
@@ -18,8 +19,6 @@ return new class extends Migration
             $table->string('author');
             $table->uuid('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            // $table->uuid('category_id');
-            // $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
