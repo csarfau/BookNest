@@ -21,6 +21,12 @@ export default function BookForm() {
     author: "",
   });
 
+  useEffect(() => {
+    if (errors) {
+      toast.error(`${errors}`, { theme: "dark", position: "top-center" });
+    }
+  }, [errors]);
+
   const fetchBook = (bookId: string) => {
     setLoading(true);
     axiosClient
@@ -47,44 +53,37 @@ export default function BookForm() {
     if(book.id) {
       axiosClient.patch(`/books/${book.id}`, book)
         .then(() => {
-          toast.success("Informações alteradas com sucesso!", {theme: "dark"});
+          toast.success("Informações alteradas com sucesso!", {theme: "dark", position: "top-center"});
           navigate("/books");
         })
         .catch((err) => {
           const response = err.response;
           if (response && response.status === 422) {
             setErrors(response.data.errors);
-            toast.error("Falha ao alterar informações, tente novamente.", {theme: "dark"});
           }
+          setErrors(response.data.message)
         });
     } else {
       axiosClient.post("/books", book)
         .then(() => {
-          toast.success("Livro criado com sucesso!", {theme: "dark"});
+          toast.success("Livro criado com sucesso!", {theme: "dark", position: "top-center"});
           navigate("/books");
         })
         .catch((err) => {
           const response = err.response;
           if (response && response.status === 422) {
             setErrors(response.data.errors);
-            toast.error("Falha ao criar livro, tente novamente.", {theme: "dark"});
           }
+          setErrors(response.data.message);
         })
     }
   };
 
   return (
     <>
-      {!book.id ? <h1>Novo Livro</h1> : <h1>Editar Livro: {book.title}</h1>}
+      {!book.id ? <h1 style={{color: "#ffffff"}}>Novo Livro</h1> : <h1 style={{color: "#ffffff"}}>Editar Livro: {book.title}</h1>}
       <div className="card animated fadeInDown">
         {loading && <div className="text-center">Loading...</div>}
-        {errors && (
-          <div className="alert">
-            {Object.keys(errors).map((key) => (
-              <p key={key}>{errors[key][0]}</p>
-            ))}
-          </div>
-        )}
         <form onSubmit={onSubmit}>
           <label htmlFor="id">ID do Livro</label>
           {book.id && <input value={book.id} placeholder="ID" disabled />}
