@@ -15,7 +15,8 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * - Request criada para validar os dados de login,
+     * com regras e mensagens personalizadas para cada erro
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
@@ -24,6 +25,16 @@ class LoginRequest extends FormRequest
         return [
             'email' => ['required', 'email', 'exists:users,email'],
             'password' => ['required']
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'email.required' => 'O e-mail é obrigatório.',
+            'email.email' => 'Insira um e-mail válido.',
+            'email.exists' => 'Esse e-mail não existe.',
+            'password.required' => 'A senha é obrigatória',
         ];
     }
 }

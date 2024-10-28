@@ -15,7 +15,8 @@ class StoreBookRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * - Request criada para validar os dados de criação de um livro,
+     * com regras e mensagens personalizadas para cada erro
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
@@ -25,6 +26,20 @@ class StoreBookRequest extends FormRequest
             'title' => ['required', 'string', 'max:55'],
             'description' => ['nullable', 'string'],
             'author' => ['required', 'string', 'max:55'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'title.required' => 'O título do livro é obrigatório.',
+            'title.string' => 'O título do livro deve ser uma string válida.',
+            'title.max' => 'O título do livro deve conter no máximo 55 caracteres.',
+            'description.required' => 'A descrição do livro é obrigatória.',
+            'description.string' => 'O título do livro deve ser uma string válida.',
+            'author.required' => 'O autor do livro é obrigatório.',
+            'author.string' => 'O autor do livro deve ser uma string válida.',
+            'author.max' => 'O autor do livro deve conter no máximo 55 caracteres.',
         ];
     }
 }

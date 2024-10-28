@@ -16,7 +16,8 @@ class SignupRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * - Request criada para validar os dados de registro de usuário,
+     * com regras e mensagens personalizadas para cada erro
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
@@ -32,6 +33,23 @@ class SignupRequest extends FormRequest
                     ->letters()
                     ->symbols()
             ]
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'O nome é obrigatório.',
+            'name.string' => 'O nome deve ser uma string válida.',
+            'name.max' => 'O nome não pode conter mais do que 55 caracteres.',
+            'email.required' => 'O e-mail é obrigatório',
+            'email.email' => 'Insira um e-mail válido.',
+            'email.unique' => 'Esse e-mail já existe.',
+            'password.required' => 'A senha é obrigatória.',
+            'password.confirmed' => 'As senhas não conferem.',
+            'password.min' => 'A senha deve conter pelo menos 8 caracteres.',
+            'password.letters' => 'A senha deve conter pelo menos 1 letra.',
+            'password.symbols' => 'A senha deve conter pelo menos 1 símbolo.',
         ];
     }
 }
